@@ -328,7 +328,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             type = .House
         }
         
-        let building = Building(type: type!, width: type! == .ClockTower ? size.width / 8.0 : size.width / 6.0)
+        let width = type! == .ClockTower ? size.width / 8.0 : size.width / 6.0
+        let buildingSize: CGSize = type! == .ClockTower ? CGSize(width: width, height: size.height * 0.8) : CGSize(width: width, height: width)
+        
+        let building = Building(type: type!, buildingSize: buildingSize)
         
         buildingLayer.addChild(building)
         let positionInScene = CGPoint(x: size.width + (building.size.width / 2.0), y: (building.size.height / 2.0))

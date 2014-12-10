@@ -21,33 +21,29 @@ class Building: SKSpriteNode {
         fatalError("init(coder:) has not been implemented, stop calling it")
     }
     
-    convenience init(type: BuildingType, width: CGFloat) {
+    convenience init(type: BuildingType, buildingSize: CGSize) {
         var textureName: String?
-        var buildingSize: CGSize?
         
         switch type {
         case .House:
             textureName = "house.png"
-            buildingSize = CGSize(width: width, height: width)
         case .HouseWithChimney:
             textureName = "house.png"
-            buildingSize = CGSize(width: width, height: width)
         case .ClockTower:
             textureName = "clockTower.png"
-            buildingSize = CGSize(width: width, height: width * 4)
         }
         
         let texture = SKTexture(imageNamed: textureName!)
         
-        self.init(texture: texture, color: UIColor.clearColor(), size: buildingSize!, type: type)
-        self.physicsBody = SKPhysicsBody(texture: texture, size: buildingSize!)
+        self.init(texture: texture, color: UIColor.clearColor(), size: buildingSize, type: type)
+        self.physicsBody = SKPhysicsBody(texture: texture, size: buildingSize)
         self.physicsBody!.categoryBitMask = PhysicsCategory.Hazard
         self.physicsBody!.contactTestBitMask = PhysicsCategory.Present|PhysicsCategory.Santa|PhysicsCategory.Sleigh|PhysicsCategory.Reindeer
         self.physicsBody!.dynamic = false
         self.physicsBody!.affectedByGravity = false
         
         if type == .HouseWithChimney {
-            let chimneySize: CGSize = CGSize(width: buildingSize!.width / 5.0, height: buildingSize!.height / 2.0)
+            let chimneySize: CGSize = CGSize(width: buildingSize.width / 5.0, height: buildingSize.height / 2.0)
             println("Chimney size \(chimneySize)")
             let chimney = SKSpriteNode(imageNamed: "chimney.png")
             chimney.size = chimneySize
@@ -57,7 +53,7 @@ class Building: SKSpriteNode {
             chimney.physicsBody!.affectedByGravity = false
             chimney.physicsBody!.dynamic = false
             self.addChild(chimney)
-            chimney.position = CGPoint(x: buildingSize!.width / 4.0, y: buildingSize!.height / 2.0)
+            chimney.position = CGPoint(x: buildingSize.width / 4.0, y: buildingSize.height / 2.0)
         }
         
     }
