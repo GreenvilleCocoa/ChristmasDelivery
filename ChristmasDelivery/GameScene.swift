@@ -298,7 +298,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: Other
     
     func makeExplosionAtPoint(point: CGPoint, withFire: Bool) {
-        let explosionEmitter = Explosion(color: UIColor.redColor())
+        
+        let random: UInt32 = arc4random_uniform(3)
+        let colorArray: [UIColor] = [UIColor.redColor(), UIColor.greenColor(), UIColor.whiteColor()]
+        let color: UIColor = colorArray[Int(random)]
+        let explosionEmitter = Explosion(color: color)
+        
         overLayer.addChild(explosionEmitter)
         explosionEmitter.position = point
         
