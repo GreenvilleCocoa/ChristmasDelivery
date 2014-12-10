@@ -22,6 +22,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let overLayer: SKNode = SKNode()
     let scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
     var gameIsOver: Bool = false
+    var screenAdjustment: CGFloat {
+        get {
+            return size.width / 1024
+        }
+    }
     
     var lastBuilding: Building?
     var distanceToNextBuilding: CGFloat = 50
@@ -103,8 +108,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // Move the buildings and background
-        backgroundLayer.position.x -= ((CGFloat(level) + 2) * 0.5)
-        buildingLayer.position.x -= 2 + CGFloat(level)
+        backgroundLayer.position.x -= (((CGFloat(level) + 2) * 0.5) * screenAdjustment)
+        buildingLayer.position.x -= ((CGFloat(level) + 2) * screenAdjustment)
         
         if let theLastBuilding = lastBuilding {
             let pointInScene = self.convertPoint(theLastBuilding.position, fromNode: buildingLayer)
@@ -131,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // do something with node or stop
             let positionInScene = self.convertPoint(node.position, fromNode: node.parent!)
             if positionInScene.x < -100 {
-                let random = CGFloat(arc4random_uniform(500)) + 1200
+                let random = ((CGFloat(arc4random_uniform(500)) + 1200) * self.screenAdjustment)
                 node.position.x += random
             }
         })
@@ -339,7 +344,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         lastBuilding = building
         
-        distanceToNextBuilding = 20 + CGFloat(arc4random_uniform(81))
+        distanceToNextBuilding = (20 + CGFloat(arc4random_uniform(81)) * screenAdjustment)
     }
     
     func addNewAirHazard() {
