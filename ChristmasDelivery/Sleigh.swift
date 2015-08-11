@@ -19,4 +19,8 @@ class Sleigh: SleighComponent {
         self.physicsBody!.collisionBitMask = PhysicsCategory.Chimney|PhysicsCategory.Hazard|PhysicsCategory.EdgeLoop
         self.physicsBody!.affectedByGravity = false
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

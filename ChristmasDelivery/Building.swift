@@ -44,7 +44,7 @@ class Building: SKSpriteNode {
         
         if type == .HouseWithChimney {
             let chimneySize: CGSize = CGSize(width: buildingSize.width / 5.0, height: buildingSize.height / 2.0)
-            println("Chimney size \(chimneySize)")
+            print("Chimney size \(chimneySize)")
             let chimney = SKSpriteNode(imageNamed: "chimney.png")
             chimney.size = chimneySize
             chimney.physicsBody = SKPhysicsBody(rectangleOfSize: chimneySize)

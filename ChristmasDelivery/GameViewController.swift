@@ -22,12 +22,12 @@ class GameViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let skView: SKView = self.view as SKView
+        let skView: SKView = self.view as! SKView
         
         if (skView.scene == nil) {
             skView.showsFPS = true
             skView.showsNodeCount = true
-            skView.ignoresSiblingOrder = true
+//            skView.ignoresSiblingOrder = true
 //            skView.showsPhysics = true
             
             let scene: GameScene = GameScene(size: skView.frame.size, level: 1)
@@ -41,8 +41,8 @@ class GameViewController: UIViewController {
         return true
     }
 
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Landscape.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Landscape
     }
 
     override func didReceiveMemoryWarning() {

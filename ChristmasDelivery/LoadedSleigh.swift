@@ -12,7 +12,7 @@ class LoadedSleigh: SKNode {
     var sleighComponents: [SleighComponent] = []
     var theSleigh: Sleigh {
         get {
-            return sleighComponents[0] as Sleigh
+            return sleighComponents[0] as! Sleigh
         }
     }
     
@@ -52,7 +52,7 @@ class LoadedSleigh: SKNode {
         
         let presentSize = CGSize(width: size.width / 6.0, height: size.width / 6.0)
         for _ in 0...9 {
-            var present = Present(size: presentSize)
+            let present = Present(size: presentSize)
             self.presents.append(present)
         }
         
@@ -111,7 +111,7 @@ class LoadedSleigh: SKNode {
         
         if sleighComponents.count > 1 {
             for reindeerPosition in 0...(sleighComponents.count - 2) {
-                let reindeer: Reindeer = sleighComponents[(sleighComponents.count) - reindeerPosition - 1] as Reindeer
+                let reindeer: Reindeer = sleighComponents[(sleighComponents.count) - reindeerPosition - 1] as! Reindeer
                 let climbAction = self.makeClimbAction(dY, time: time, sleighComponentPosition: reindeerPosition)
                 reindeer.runAction(climbAction)
                 reindeer.runAction(fallAction)

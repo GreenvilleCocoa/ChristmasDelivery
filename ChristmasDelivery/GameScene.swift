@@ -132,7 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Check the trees, if they are off the screen to the left, move them back to the right
         self.backgroundLayer.enumerateChildNodesWithName("tree", usingBlock: {
-            (node: SKNode!, stop: UnsafeMutablePointer <ObjCBool>) -> Void in
+            (node: SKNode, stop: UnsafeMutablePointer <ObjCBool>) -> Void in
             // do something with node or stop
             let positionInScene = self.convertPoint(node.position, fromNode: node.parent!)
             if positionInScene.x < -100 {
@@ -170,7 +170,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // MARK: Touches
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         /* Called when a touch begins */
         var moveTouch: UITouch?
         var foundMoveTouch = false
@@ -195,6 +195,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first!
+        
+        let location = touch.locationInNode(self)
+        
+        theSleigh!.moveToHeight(location.y)
+    }
+    
     // MARK: SKPhysicsContactDelegate
     func didBeginContact(contact: SKPhysicsContact) {
         var body1: SKPhysicsBody = contact.bodyA
@@ -213,7 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePresent.removeFromParent()
                 thePresent.physicsBody = nil
                 
-                if let index = find(theSleigh!.presents, thePresent) {
+                if let index = theSleigh!.presents.indexOf(thePresent) {
                     theSleigh!.presents.removeAtIndex(index)
                 }
                 
@@ -228,7 +236,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePresent.removeFromParent()
                 thePresent.physicsBody = nil
                 
-                if let index = find(theSleigh!.presents, thePresent) {
+                if let index = theSleigh!.presents.indexOf(thePresent) {
                     theSleigh!.presents.removeAtIndex(index)
                 }
             }
@@ -258,7 +266,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if body1.categoryBitMask == PhysicsCategory.Reindeer && (body2.categoryBitMask == PhysicsCategory.Hazard || body2.categoryBitMask == PhysicsCategory.Chimney) {
             if let theReindeer = body1.node as? Reindeer {
                 let positionInScene = self.convertPoint(theReindeer.position, fromNode: theReindeer.parent!)
-                if let index = find(theSleigh!.sleighComponents, theReindeer) {
+                if let index = theSleigh!.sleighComponents.indexOf(theReindeer) {
                     theSleigh!.sleighComponents.removeAtIndex(index)
                     theReindeer.removeFromParent()
                     overLayer.addChild(theReindeer)
@@ -287,7 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 theReindeer.removeFromParent()
                 theReindeer.physicsBody = nil
                 
-                if let index = find(theSleigh!.sleighComponents, theReindeer) {
+                if let index = theSleigh!.sleighComponents.indexOf(theReindeer) {
                     theSleigh!.sleighComponents.removeAtIndex(index)
                 }
                 
@@ -324,8 +332,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Get a random int between 0 and 99, determine the building based on level, more chimney houses early, more towers later
         let random: UInt32 = arc4random_uniform(100)
         
-        let towerChance: UInt32 = 10 + level
-        let chimneyChance: UInt32 = min(90, 60 + level)
+        let towerChance: UInt32 = 10 + UInt32(level)
+        let chimneyChance: UInt32 = min(90, 60 + UInt32(level))
         
         var type: BuildingType?
         

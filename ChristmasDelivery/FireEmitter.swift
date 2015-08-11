@@ -11,6 +11,6 @@ import SpriteKit
 class FireEmitter: SKEmitterNode {
     class func emitternode() -> SKEmitterNode {
         let untypedEmitter : AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("fire", ofType: "sks")!)!;
-        return untypedEmitter as SKEmitterNode
+        return untypedEmitter as! SKEmitterNode
     }
 }

@@ -41,7 +41,7 @@ class GameOverScene: SKScene {
         self.addChild(myLabel)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if !success {
             totalScore = 0
         }
